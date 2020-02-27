@@ -2,6 +2,9 @@
 
 
 def partitions(n):
+    # https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
+    # This function is by David Eppstein under PSF License
+    # But it does not pass the execution limit.
     if n == 0:
         yield []
         return
@@ -11,9 +14,34 @@ def partitions(n):
             yield [p[0] + 1] + p[1:]
 
 
+def accel_asc(n):
+    # http://jeromekelleher.net/generating-integer-partitions.html
+    # Function by By Jerome Kelleher, license unknown
+    a = [0 for i in range(n + 1)]
+    k = 1
+    y = n - 1
+    while k != 0:
+        x = a[k - 1] + 1
+        k -= 1
+        while 2 * x <= y:
+            a[k] = x
+            y -= x
+            k += 1
+        l = k + 1
+        while x <= y:
+            a[k] = x
+            a[l] = y
+            yield a[:k + 2]
+            x += 1
+            y -= 1
+        a[k] = x + y
+        y = x + y - 1
+        yield a[:k + 1]
+
+
 def get_addends(n):
     addends = []
-    for i in partitions(n):
+    for i in accel_asc(n):
         addends.append(i)
     return addends
 
@@ -91,6 +119,7 @@ https://stackoverflow.com/questions/10035752/elegant-python-code-for-integer-par
 This is called integer partitions
 https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
 
-
+Generating integar partitions
+http://jeromekelleher.net/generating-integer-partitions.html
 
 '''
