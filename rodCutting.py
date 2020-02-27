@@ -1,4 +1,7 @@
 # https://app.codesignal.com/challenge/AHL2v6hReiaHhZCJR
+# Was not able to solve this - could not pass the execution time limit.
+# It is likely my hacked functions that piggyback off of the the functions I found
+# for generating integer partitions causing the time delay.
 
 
 def partitions(n):
@@ -17,6 +20,7 @@ def partitions(n):
 def accel_asc(n):
     # http://jeromekelleher.net/generating-integer-partitions.html
     # Function by By Jerome Kelleher, license unknown
+    # This function still does not pass the execution limit.
     a = [0 for i in range(n + 1)]
     k = 1
     y = n - 1
