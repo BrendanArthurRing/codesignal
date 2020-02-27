@@ -1,11 +1,40 @@
 # https://app.codesignal.com/challenge/AHL2v6hReiaHhZCJR
 
 
-def rodCutting(n, v):
-    pass
+def partitions(n):
+    if n == 0:
+        yield []
+        return
+    for p in partitions(n - 1):
+        yield [1] + p
+        if p and (len(p) < 2 or p[1] > p[0]):
+            yield [p[0] + 1] + p[1:]
 
+
+def get_addends(n):
+    addends = []
+    for i in partitions(n):
+        addends.append(i)
+    return addends
+
+
+def rodCutting(n, v):
+    sums = []
+    addends = get_addends(n)
+    for addend in addends:
+        sum = 0
+        for number in addend:
+            sum += v[number]
+        sums.append(sum)
+    return max(sums)
+
+
+n = 4
+v = [0, 2, 4, 7, 7]
+rodCutting(n, v)
 
 # Start Testing
+
 n = 4
 v = [0, 2, 4, 7, 7]
 assert rodCutting(n, v) == 9
@@ -42,3 +71,26 @@ rodCutting(n, v) = 9.
 
 A rod with a length of 4 costs 7. You can cut it into 4 pieces of length 1 - this variant will have a revenue of 8. You can cut it into 2 pieces of length 2 - this variant will also have a revenue of 8. You can also cut it into pieces of lengths 1 and 3 - this variant will have a revenue of 2 + 7 = 9, which is the maximum possible.
 """
+
+'''
+
+In the example they give the following
+1+1+1+1 = 4
+and so since the index of 1 in the array v = 2 that would be 2+2+2+2 = 8
+
+This problem might come down to finding all numbers that add up to the number n and then finding the greatest sum if you plug those numbers as indexes back into the array v.
+
+I figured out that the numbers that add up to a sum are called addends
+https://math.stackexchange.com/questions/1909222/how-to-find-all-possible-addends-for-a-large-number
+And there is a mathmatica module called partitions that does this
+
+So the terms addends and partitions are a good place to look.
+
+https://stackoverflow.com/questions/10035752/elegant-python-code-for-integer-partitioning
+
+This is called integer partitions
+https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
+
+
+
+'''
