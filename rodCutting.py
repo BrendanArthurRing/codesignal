@@ -2,10 +2,10 @@
 
 
 def rodCutting(n, v):
+    pass
 
-    # Start Testing
 
-
+# Start Testing
 n = 4
 v = [0, 2, 4, 7, 7]
 assert rodCutting(n, v) == 9
