@@ -1,26 +1,9 @@
 # https://app.codesignal.com/challenge/AHL2v6hReiaHhZCJR
-# Was not able to solve this - could not pass the execution time limit.
-# It is likely my hacked functions that piggyback off of the the functions I found
-# for generating integer partitions causing the time delay.
-
-
-def partitions(n):
-    # https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
-    # This function is by David Eppstein under PSF License
-    # But it does not pass the execution limit.
-    if n == 0:
-        yield []
-        return
-    for p in partitions(n - 1):
-        yield [1] + p
-        if p and (len(p) < 2 or p[1] > p[0]):
-            yield [p[0] + 1] + p[1:]
 
 
 def accel_asc(n):
     # http://jeromekelleher.net/generating-integer-partitions.html
     # Function by By Jerome Kelleher, license unknown
-    # This function still does not pass the execution limit.
     a = [0 for i in range(n + 1)]
     k = 1
     y = n - 1
@@ -43,22 +26,15 @@ def accel_asc(n):
         yield a[:k + 1]
 
 
-def get_addends(n):
-    addends = []
-    for i in accel_asc(n):
-        addends.append(i)
-    return addends
-
-
 def rodCutting(n, v):
-    sums = []
-    addends = get_addends(n)
-    for addend in addends:
-        sum = 0
-        for number in addend:
-            sum += v[number]
-        sums.append(sum)
-    return max(sums)
+    price = 0
+    for i in accel_asc(n):
+        total = 0
+        for j in i:
+            total += v[j]
+        if total > price:
+            price = total
+    return price
 
 
 n = 4
@@ -125,5 +101,20 @@ https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
 
 Generating integar partitions
 http://jeromekelleher.net/generating-integer-partitions.html
+
+
+
+
+def partitions(n):
+    # https://code.activestate.com/recipes/218332-generator-for-integer-partitions/
+    # This function is by David Eppstein under PSF License
+    # But it does not pass the execution limit.
+    if n == 0:
+        yield []
+        return
+    for p in partitions(n - 1):
+        yield [1] + p
+        if p and (len(p) < 2 or p[1] > p[0]):
+            yield [p[0] + 1] + p[1:]
 
 '''
